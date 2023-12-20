@@ -1,4 +1,5 @@
 import { RequestHandler } from "express";
+import { clients } from "../../index";
 
 /**
  * Health check endpoint
@@ -6,12 +7,11 @@ import { RequestHandler } from "express";
 const getEvent: RequestHandler = (_req, res) => {
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Access-Control-Allow-Origin", "*");
-  const intervalId = setInterval(() => {
-    res.write("data: michal");
-  }, 2000);
+  res.write("data: michal\n\n");
+  clients.push(res);
+  console.log("test");
   res.on("close", () => {
     console.log("Client closed connection");
-    clearInterval(intervalId);
     res.end();
   });
   // res.status(200).json({
