@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D Model Quality Checking Report</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 20px;
+        background-color: #f8f8f8;
+        color: #333;
+        position: relative;
+        min-height: 100vh;
+      }
+
+      h1 {
+        text-align: center;
+        color: #0056b3;
+        margin-bottom: 20px;
+      }
+
+      .report-details,
+      .order-details {
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .report-details h2,
+      .order-details h2 {
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 15px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #f5f5f5;
+        color: #333;
+      }
+
+      .part-status {
+        font-weight: bold;
+      }
+
+      .part-status--damaged {
+        color: #e74c3c;
+      }
+
+      .part-status--ok {
+        color: #2ecc71;
+      }
+
+      .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+        background-color: #f5f5f5;
+        color: #333;
+        border-top: 1px solid #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>3D Model Quality Checking Report</h1>
+
+    <div class="report-details">
+      <h2>Report Details</h2>
+      <p>Check Date: <span id="checkDate"></span></p>
+    </div>
+
+    <h3>Orders Details</h3>
+
+    <script>
+      // Sample JSON data for multiple orders and items
+      const jsonData = {
+        checkDate: "2023-12-20",
+        orders: [
+          {
+            id: "123456",
+            items: [
+              { id: "1", part: "Engine", isDamaged: false },
+              { id: "2", part: "Battery", isDamaged: true },
+              { id: "3", part: "Wheels", isDamaged: false },
+            ],
+          },
+          {
+            id: "789012",
+            items: [
+              { id: "4", part: "Casing", isDamaged: false },
+              { id: "5", part: "Control System", isDamaged: false },
+            ],
+          },
+        ],
+      };
+
+      // Fill in the HTML with data
+      document.getElementById("checkDate").innerText = jsonData.checkDate;
+
+      jsonData.orders.forEach((order) => {
+        const orderDetails = document.createElement("div");
+        orderDetails.className = "order-details";
+        orderDetails.innerHTML = `<h2>Order Details</h2><p>Order ID: ${order.id}</p>`;
+        document.body.appendChild(orderDetails);
+
+        const itemsTableBody = document.createElement("tbody");
+        order.items.forEach((item) => {
+          const row = itemsTableBody.insertRow();
+          row.insertCell(0).innerText = item.id;
+          row.insertCell(1).innerText = item.part;
+          const statusCell = row.insertCell(2);
+          statusCell.innerText = item.isDamaged ? "Damaged" : "OK";
+          statusCell.classList.add(
+            item.isDamaged ? "part-status--damaged" : "part-status--ok"
+          );
+        });
+
+        const orderTable = document.createElement("table");
+        orderTable.innerHTML = `
+        <thead>
+          <tr>
+            <th>Part ID</th>
+            <th>Part Name</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+      `;
+        orderTable.appendChild(itemsTableBody);
+        document.body.appendChild(orderTable);
+      });
+    </script>
+
+    <div class="footer">
+      <p>Powered by Toolkit3d.com</p>
+    </div>
+  </body>
+</html>

@@ -1,7 +1,5 @@
 // eslint-disable-next-line no-undef
-const eventSource = new EventSource(
-  "https://server-test-v7s6.onrender.com/event"
-);
+const eventSource = new EventSource("http://localhost:3000/event");
 function updateMessage(message) {
   console.log("message", message);
 }
@@ -11,9 +9,10 @@ eventSource.onopen = function () {
 };
 
 eventSource.onmessage = function (event) {
+  console.log(event.data);
   const d = document.getElementById("raports");
   const el = document.createElement("div");
-  el.innerText = "TEST";
+  el.innerText = "TEST2";
   d.appendChild(el);
 };
 
