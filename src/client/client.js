@@ -1,5 +1,7 @@
 // eslint-disable-next-line no-undef
-const eventSource = new EventSource("https://server-test-v7s6.onrender.com");
+const eventSource = new EventSource(
+  "https://server-test-v7s6.onrender.com/event"
+);
 function updateMessage(message) {
   console.log("message", message);
 }
